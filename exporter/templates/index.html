@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<form method="post" enctype="multipart/form-data" style="left: 350px; bottom: 280px; position: absolute;">
+    {% csrf_token %}
+    <div class="custom-file mb-3 col-9">
+        <input type="file" class="custom-file-input" id="customFile" name="csv_file">
+        <label class="custom-file-label" for="customFile" style="background-color: #f2f2f2">Choose csv file</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Parse it...</button>
+</form>
+
+{% endblock %}

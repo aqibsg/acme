@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid" style='padding:25px'>
+<div class="row ">
+    <div class="col-5">
+        <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'exporter:search' %}">
+            <div class="form-group">
+                <input type="text" class="form-control" style="display:inline; width:80%" name="query" value="{{ request.GET.query }}" placeholder="Search here...">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-3">
+        <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'exporter:search' %}">
+            <select class="form-control" style="display:inline; width:50%" name='active'>
+                <option value="None" />No Filter</option>
+                <option value="True" />Active</option>
+                <option value="False" />Inactive</option>
+            </select> 
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+    <div class="col-4" style="text-align: right">
+        <form action="{% url 'exporter:delete' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-xs" name='delete'>
+                <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete all
+            </button>
+        </form>
+    </div>
+</div>
+
+<p style="color:red; font-size:10px">* Inactive Products are in grey</p>
+
+<div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary ">
+                <div class="panel-body text-prima">
+                    <table class="table">
+                        <thead> 
+                            <tr>
+                                <th>Name</th>
+                                <th>Sku</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for prd in products %}
+                                <tr style="{% if prd.active == False %}color:grey{% endif %}; font-size: 14px"">
+                                        <td>{{ prd.name }}</td>
+                                        <td>{{ prd.sku }}</td>
+                                        <td>{{ prd.description }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ products.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+            <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endblock %}
