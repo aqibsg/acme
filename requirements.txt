@@ -7,7 +7,7 @@ django-import-export==1.2.0
 et-xmlfile==1.0.1
 gunicorn==19.9.0
 jdcal==1.4.1
-numpy==1.16.4
+numpy==1.22.0
 odfpy==1.4.0
 openpyxl==2.6.2
 pandas==0.24.2
